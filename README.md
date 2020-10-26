@@ -10,8 +10,8 @@ Yelpy is an app that allows users to view Yelp Restaurants
 - [x] User can tap a cell to see more details about a restaurant.
 
 #### BONUS
-- [] Implement search bar for restaurants
-- [] Infinite scrolling
+- [ ] Implement search bar for restaurants
+- [ ] Infinite scrolling
 
 ---
 
