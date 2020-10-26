@@ -17,9 +17,8 @@ Yelpy is an app that allows users to view Yelp Restaurants
 
 ### App Walkthrough GIF
 
-<img src="http://g.recordit.co/QL4utA1XX4.gif" width=250><br>
+<img src="http://g.recordit.co/T6nL78YwFg.gif" width=250><br>
 
 ### Notes
 Describe any challenges encountered while building the app.
 ---
--Could not figure out how to get ratings like 4.5. They were rounded down automatically 
