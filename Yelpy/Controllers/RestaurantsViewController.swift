@@ -59,7 +59,7 @@ class RestaurantsViewController: UIViewController, UITableViewDelegate, UITableV
     
     // –––––– TODO: Update restaurants Array to an array of Restaurants
     var restaurantsArray: [Restaurant] = []
-    //var filteredData: [String]!
+    var filteredData: [Restaurant]!
     
     
     override func viewDidLoad() {
@@ -67,8 +67,10 @@ class RestaurantsViewController: UIViewController, UITableViewDelegate, UITableV
 
         tableView.delegate = self
         tableView.dataSource = self
-        //searchBar.delegate = self
+        searchBar.delegate = self
+        filteredData = restaurantsArray
         getAPIData()
+        
         
         // Set up Infinite Scroll loading indicator
         let frame = CGRect(x: 0, y: tableView.contentSize.height, width: tableView.bounds.size.width, height:InfiniteScrollActivityView.defaultHeight)
@@ -84,11 +86,14 @@ class RestaurantsViewController: UIViewController, UITableViewDelegate, UITableV
     
     // ––––– TODO: Update API to get an array of restaurant objects
     func getAPIData() {
-        API.getRestaurants() { (restaurants) in
+        API.getRestaurants() { [self] (restaurants) in
             guard let restaurants = restaurants else {
                 return
             }
             self.restaurantsArray = restaurants
+            
+            self.filteredData = self.restaurantsArray
+            
             self.tableView.reloadData()
         }
     }
@@ -96,7 +101,8 @@ class RestaurantsViewController: UIViewController, UITableViewDelegate, UITableV
     // Protocol Stubs
     // How many cells there will be
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return restaurantsArray.count
+        return filteredData.count
+
     }
     
 
@@ -105,7 +111,7 @@ class RestaurantsViewController: UIViewController, UITableViewDelegate, UITableV
         // Create Restaurant Cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "RestaurantCell") as! RestaurantCell
         
-        let restaurant = restaurantsArray[indexPath.row]
+        let restaurant = filteredData[indexPath.row]
         
         cell.r = restaurant
         
@@ -117,7 +123,7 @@ class RestaurantsViewController: UIViewController, UITableViewDelegate, UITableV
         let cell = sender as! UITableViewCell
         
         if let indexPath = tableView.indexPath(for: cell) {
-            let r = restaurantsArray[indexPath.row]
+            let r = filteredData[indexPath.row]
             
             let detailViewController = segue.destination as! RestaurantDetailViewController
             
@@ -189,8 +195,23 @@ class RestaurantsViewController: UIViewController, UITableViewDelegate, UITableV
             }
         
         }
-
     
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+            // When there is no text, filteredData is the same as the original data
+            // When user has entered text into the search box
+            // Use the filter method to iterate over all items in the data array
+            // For each item, return true if the item should be included and false if the
+            // item should NOT be included
+
+
+        self.filteredData = searchText.isEmpty ? restaurantsArray : restaurantsArray.filter { (item: Restaurant) -> Bool in
+                // If dataItem matches the searchText, return true to include it
+                return item.name.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+            }
+
+            tableView.reloadData()
+    }
 }
 
 
