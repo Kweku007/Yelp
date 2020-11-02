@@ -13,6 +13,11 @@ Yelpy is an app that allows users to view Yelp Restaurants
 - [x] Implement search bar for restaurants
 - [x] Infinite scrolling
 
+
+### App Walkthrough GIF
+
+<img src="http://g.recordit.co/rdiOKy4NoH.gif" width=250><br>
+
 ---
 
 ## Yelpy Part 1
